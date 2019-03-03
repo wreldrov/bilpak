@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCategoriesTable extends Migration
+class CreateTestsResultAnswersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,16 @@ class CreateCategoriesTable extends Migration
      */
     public function up()
     {
-        Schema::create('categories', function (Blueprint $table) {
+        Schema::create('tests_result_answers', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
-            $table->unsignedInteger('position')->nullable();
-            $table->unsignedInteger('company_id')->default(0);
+            $table->unsignedInteger('test_result_id');
+            $table->unsignedInteger('question_id');
+            $table->unsignedInteger('option_id');
+            $table->boolean('correct')->default(0);
             $table->timestamps();
 
-            $table->foreign('company_id')
-                ->references('id')->on('companies')
+            $table->foreign('test_result_id')
+                ->references('id')->on('tests_results')
                 ->onDelete('cascade')->onUpdate('cascade');
         });
     }
@@ -33,6 +34,6 @@ class CreateCategoriesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('categories');
+        Schema::dropIfExists('tests_result_answers');
     }
 }
